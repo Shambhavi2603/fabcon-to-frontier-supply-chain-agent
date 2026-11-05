@@ -1,0 +1,1965 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Supply Chain Operations | Customer Storytelling Demo</title>
+    <style>
+      :root {
+        --navy: #101d35;
+        --navy2: #182b4d;
+        --blue: #3478f6;
+        --cyan: #46c7d8;
+        --ink: #1b2a43;
+        --muted: #687991;
+        --line: #e3eaf3;
+        --bg: #f4f7fb;
+        --white: #fff;
+        --green: #159b75;
+        --amber: #d98b1b;
+        --red: #d6535c;
+        --shadow: 0 14px 38px rgba(22, 43, 77, 0.09);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        font-family:
+          Inter,
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          sans-serif;
+        background: var(--bg);
+        color: var(--ink);
+      }
+      button,
+      input {
+        font: inherit;
+      }
+      button {
+        cursor: pointer;
+      }
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: rgba(16, 29, 53, 0.96);
+        backdrop-filter: blur(14px);
+        color: white;
+        padding: 0 5vw;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 68px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .brand {
+        font-weight: 800;
+        letter-spacing: 0.2px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .brand-mark {
+        width: 30px;
+        height: 30px;
+        border-radius: 9px;
+        background: linear-gradient(135deg, var(--blue), var(--cyan));
+        display: grid;
+        place-items: center;
+        font-weight: 900;
+      }
+      .nav {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+      }
+      .nav a {
+        color: #c7d3e5;
+        text-decoration: none;
+        font-size: 12px;
+        padding: 9px 10px;
+        border-radius: 8px;
+      }
+      .nav a:hover {
+        background: #263c60;
+        color: #fff;
+      }
+      .top-actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      .pill {
+        font-size: 11px;
+        color: #b7f2e1;
+        border: 1px solid rgba(91, 220, 181, 0.3);
+        padding: 6px 10px;
+        border-radius: 99px;
+      }
+      .btn {
+        border: 0;
+        border-radius: 10px;
+        padding: 11px 16px;
+        font-weight: 700;
+        font-size: 13px;
+        transition: 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .btn:hover {
+        transform: translateY(-2px);
+        filter: brightness(1.05);
+      }
+      .btn-primary {
+        background: linear-gradient(120deg, var(--blue), #5798ff);
+        color: white;
+        box-shadow: 0 8px 20px #3478f633;
+      }
+      .btn-dark {
+        background: var(--navy2);
+        color: white;
+      }
+      .btn-ghost {
+        background: #edf3fc;
+        color: #25446f;
+      }
+      .hero {
+        min-height: 590px;
+        padding: 78px 7vw 70px;
+        background:
+          radial-gradient(circle at 80% 15%, #294c7d 0, transparent 30%),
+          linear-gradient(120deg, #0d1b33, #142c50 65%, #173b5b);
+        color: white;
+        position: relative;
+        overflow: hidden;
+      }
+      .hero:before,
+      .hero:after {
+        content: "";
+        position: absolute;
+        border: 1px solid #ffffff15;
+        border-radius: 50%;
+        width: 460px;
+        height: 460px;
+        right: -80px;
+        top: 80px;
+        animation: orbit 22s linear infinite;
+      }
+      .hero:after {
+        width: 580px;
+        height: 580px;
+        right: -140px;
+        top: 20px;
+        animation-direction: reverse;
+      }
+      .hero-inner {
+        max-width: 1180px;
+        margin: auto;
+        display: grid;
+        grid-template-columns: 1.05fr 0.95fr;
+        gap: 55px;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+      }
+      .eyebrow {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: #75d8e4;
+        font-weight: 800;
+      }
+      .hero h1 {
+        font-size: clamp(38px, 5vw, 62px);
+        line-height: 1.04;
+        letter-spacing: -2px;
+        margin: 18px 0;
+      }
+      .hero h1 span {
+        color: #6ed5e2;
+      }
+      .hero p {
+        color: #c5d3e5;
+        font-size: 16px;
+        line-height: 1.75;
+        max-width: 570px;
+      }
+      .hero-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 28px;
+      }
+      .hero-note {
+        font-size: 11px;
+        color: #9fb2ca;
+        margin-top: 18px;
+      }
+      .hero-visual {
+        background: linear-gradient(145deg, #1b3558dd, #11233ddd);
+        border: 1px solid #ffffff24;
+        border-radius: 22px;
+        padding: 22px;
+        box-shadow: 0 30px 80px #0005;
+        transform: perspective(1000px) rotateY(-5deg);
+        animation: float 5s ease-in-out infinite;
+      }
+      .visual-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: #d9e7f8;
+        font-size: 12px;
+        margin-bottom: 18px;
+      }
+      .live-dot {
+        display: inline-block;
+        width: 7px;
+        height: 7px;
+        background: #5ce0b4;
+        border-radius: 50%;
+        margin-right: 6px;
+        box-shadow: 0 0 12px #5ce0b4;
+      }
+      .visual-kpis {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 9px;
+      }
+      .vkpi {
+        background: #ffffff0c;
+        border: 1px solid #ffffff12;
+        border-radius: 12px;
+        padding: 13px;
+      }
+      .vkpi small {
+        display: block;
+        color: #9db2ce;
+        font-size: 10px;
+      }
+      .vkpi strong {
+        font-size: 23px;
+        display: block;
+        margin-top: 6px;
+      }
+      .spark {
+        height: 110px;
+        margin: 18px 0 10px;
+        display: flex;
+        align-items: end;
+        gap: 8px;
+        border-bottom: 1px solid #ffffff22;
+        padding: 0 8px;
+      }
+      .spark i {
+        display: block;
+        flex: 1;
+        border-radius: 5px 5px 0 0;
+        background: linear-gradient(180deg, #54cddd, #3478f6);
+        animation: grow 1.4s ease both;
+        transform-origin: bottom;
+      }
+      .alert-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #d6535c20;
+        border: 1px solid #d6535c50;
+        border-radius: 10px;
+        padding: 12px;
+        color: #ffdadd;
+        font-size: 11px;
+      }
+      .section {
+        padding: 76px 7vw;
+        scroll-margin-top: 70px;
+      }
+      .section.alt {
+        background: #fff;
+      }
+      .container {
+        max-width: 1180px;
+        margin: auto;
+      }
+      .section-head {
+        max-width: 760px;
+        margin-bottom: 32px;
+      }
+      .section-head .eyebrow {
+        color: var(--blue);
+      }
+      h2 {
+        font-size: clamp(28px, 3vw, 39px);
+        letter-spacing: -1.2px;
+        margin: 10px 0 12px;
+        color: var(--navy);
+      }
+      .lead {
+        color: var(--muted);
+        line-height: 1.7;
+        font-size: 15px;
+      }
+      .step-label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--blue);
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+      }
+      .step-label b {
+        background: #eaf1ff;
+        border-radius: 50%;
+        width: 27px;
+        height: 27px;
+        display: grid;
+        place-items: center;
+      }
+      .grid2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+      .grid3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 17px;
+      }
+      .card {
+        background: white;
+        border: 1px solid var(--line);
+        border-radius: 17px;
+        padding: 22px;
+        box-shadow: var(--shadow);
+      }
+      .card h3 {
+        margin: 8px 0;
+        font-size: 17px;
+        color: var(--navy);
+      }
+      .card p {
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.65;
+        margin: 7px 0 0;
+      }
+      .iconbox {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        background: #edf3ff;
+        color: var(--blue);
+        display: grid;
+        place-items: center;
+        font-size: 19px;
+      }
+      .problem-card {
+        border-left: 4px solid var(--amber);
+      }
+      .solution-card {
+        border-left: 4px solid var(--green);
+      }
+      .quote {
+        font-size: 21px;
+        line-height: 1.5;
+        color: var(--navy);
+        font-weight: 700;
+      }
+      .quote span {
+        color: var(--blue);
+      }
+      .tag {
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        padding: 6px 8px;
+        border-radius: 6px;
+        background: #eef3fa;
+        color: #60718a;
+        display: inline-block;
+      }
+      .feature-wrap {
+        background: linear-gradient(135deg, #101f39, #19365d);
+        border-radius: 24px;
+        padding: 30px;
+        color: white;
+        box-shadow: 0 22px 60px #142b4d26;
+      }
+      .feature-wrap h2 {
+        color: white;
+      }
+      .feature-wrap .lead {
+        color: #b9c9dd;
+      }
+      .feature-grid {
+        display: grid;
+        grid-template-columns: 0.82fr 1.18fr;
+        gap: 24px;
+        margin-top: 26px;
+      }
+      .feature-list {
+        display: grid;
+        gap: 10px;
+      }
+      .feature-item {
+        border: 1px solid #ffffff20;
+        background: #ffffff09;
+        padding: 15px;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+      .feature-item.active,
+      .feature-item:hover {
+        background: #3478f633;
+        border-color: #5d9bff;
+      }
+      .feature-item strong {
+        display: block;
+        font-size: 13px;
+      }
+      .feature-item small {
+        color: #b2c3d9;
+        display: block;
+        margin-top: 5px;
+        line-height: 1.5;
+      }
+      .investigation {
+        background: #f8fbff;
+        color: var(--ink);
+        border-radius: 17px;
+        padding: 21px;
+      }
+      .investigation h3 {
+        margin: 0 0 7px;
+        color: var(--navy);
+      }
+      .asset-meta {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin: 13px 0;
+      }
+      .status {
+        font-size: 10px;
+        font-weight: 800;
+        padding: 5px 8px;
+        border-radius: 6px;
+        background: #ffeded;
+        color: #bd3c46;
+      }
+      .evidence {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 9px;
+        margin: 15px 0;
+      }
+      .evidence div {
+        background: white;
+        border: 1px solid var(--line);
+        padding: 12px;
+        border-radius: 10px;
+      }
+      .evidence small {
+        display: block;
+        color: var(--muted);
+        font-size: 10px;
+      }
+      .evidence strong {
+        font-size: 19px;
+        color: var(--navy);
+      }
+      .recommend {
+        background: #eaf8f3;
+        border: 1px solid #c9eee0;
+        border-radius: 11px;
+        padding: 13px;
+        color: #176b53;
+        font-size: 12px;
+        line-height: 1.6;
+      }
+      .architecture {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        align-items: stretch;
+        margin-top: 25px;
+      }
+      .arch-node {
+        background: white;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 17px 12px;
+        text-align: center;
+        position: relative;
+      }
+      .arch-node:not(:last-child):after {
+        content: "→";
+        position: absolute;
+        right: -14px;
+        top: 38%;
+        z-index: 2;
+        color: var(--blue);
+        font-size: 20px;
+        font-weight: 900;
+      }
+      .arch-node .iconbox {
+        margin: 0 auto 10px;
+      }
+      .arch-node strong {
+        font-size: 12px;
+        display: block;
+      }
+      .arch-node small {
+        font-size: 10px;
+        color: var(--muted);
+        display: block;
+        margin-top: 5px;
+        line-height: 1.4;
+      }
+      .journey {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+        counter-reset: journey;
+      }
+      .journey-card {
+        padding: 20px;
+        background: white;
+        border: 1px solid var(--line);
+        border-radius: 15px;
+        position: relative;
+      }
+      .journey-card:before {
+        counter-increment: journey;
+        content: "0" counter(journey);
+        font-size: 25px;
+        font-weight: 900;
+        color: #c7d7f5;
+      }
+      .journey-card h3 {
+        font-size: 14px;
+        margin: 8px 0;
+      }
+      .journey-card p {
+        font-size: 12px;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+      .scenario {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+        align-items: start;
+      }
+      .control {
+        margin: 20px 0;
+      }
+      .control label {
+        font-size: 12px;
+        font-weight: 700;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+      .control input[type="range"] {
+        width: 100%;
+        accent-color: var(--blue);
+      }
+      .control select {
+        width: 100%;
+        padding: 11px;
+        border: 1px solid var(--line);
+        border-radius: 9px;
+        background: white;
+        color: var(--ink);
+      }
+      .result-panel {
+        background: linear-gradient(145deg, #122440, #1b3a63);
+        border-radius: 18px;
+        padding: 24px;
+        color: white;
+      }
+      .result-panel .metric {
+        font-size: 40px;
+        font-weight: 850;
+        letter-spacing: -1.5px;
+      }
+      .result-panel small {
+        color: #adc0d8;
+      }
+      .result-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-top: 18px;
+      }
+      .result-grid div {
+        background: #ffffff10;
+        border: 1px solid #ffffff1c;
+        padding: 13px;
+        border-radius: 11px;
+      }
+      .result-grid strong {
+        font-size: 19px;
+        display: block;
+        margin-top: 5px;
+      }
+      .bar-track {
+        height: 8px;
+        background: #ffffff22;
+        border-radius: 10px;
+        margin-top: 9px;
+        overflow: hidden;
+      }
+      .bar-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #48c5d5, #5b9dff);
+        border-radius: 10px;
+        transition: width 0.35s;
+      }
+      .kpi-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+      }
+      .kpi-card {
+        background: white;
+        border: 1px solid var(--line);
+        border-radius: 15px;
+        padding: 20px;
+      }
+      .kpi-card small {
+        color: var(--muted);
+        font-size: 11px;
+      }
+      .kpi-card strong {
+        display: block;
+        font-size: 30px;
+        color: var(--navy);
+        margin: 7px 0;
+      }
+      .delta {
+        font-size: 11px;
+        color: var(--green);
+      }
+      .copilot {
+        background: #f1f6ff;
+        border: 1px solid #dce8fa;
+        border-radius: 18px;
+        padding: 24px;
+      }
+      .chat-log {
+        display: grid;
+        gap: 12px;
+        margin: 18px 0;
+        min-height: 180px;
+      }
+      .bubble {
+        padding: 13px 15px;
+        border-radius: 13px;
+        max-width: 88%;
+        font-size: 12px;
+        line-height: 1.65;
+      }
+      .bubble.user {
+        background: #dce9ff;
+        justify-self: end;
+        color: #1e467f;
+      }
+      .bubble.bot {
+        background: white;
+        border: 1px solid #e1e9f4;
+        color: #354861;
+      }
+      .question-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .question {
+        background: white;
+        border: 1px solid #d5e1f2;
+        color: #2d4d79;
+        border-radius: 99px;
+        padding: 9px 12px;
+        font-size: 11px;
+        text-align: left;
+      }
+      .question:hover {
+        border-color: var(--blue);
+        background: #edf4ff;
+      }
+      .outcomes {
+        background: linear-gradient(120deg, #11223e, #1b3b63);
+        color: white;
+      }
+      .outcomes h2 {
+        color: white;
+      }
+      .outcomes .lead {
+        color: #bac9dc;
+      }
+      .outcome-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+      }
+      .outcome {
+        border: 1px solid #ffffff24;
+        background: #ffffff0c;
+        border-radius: 15px;
+        padding: 20px;
+      }
+      .outcome strong {
+        font-size: 25px;
+        color: #70d5e1;
+      }
+      .outcome p {
+        font-size: 12px;
+        color: #c3d1e2;
+        line-height: 1.6;
+      }
+      .script {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 17px;
+        padding: 24px;
+      }
+      .script p {
+        font-size: 14px;
+        line-height: 1.8;
+        color: #40536d;
+      }
+      .script em {
+        color: var(--blue);
+        font-style: normal;
+        font-weight: 700;
+      }
+      .footer {
+        padding: 28px 7vw;
+        background: #0c192e;
+        color: #91a4bf;
+        font-size: 11px;
+        text-align: center;
+      }
+      .synthetic {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #fff4df;
+        color: #97600d;
+        border: 1px solid #f1dfb8;
+        padding: 6px 9px;
+        border-radius: 7px;
+        font-size: 10px;
+        font-weight: 800;
+      }
+      .fade {
+        opacity: 0;
+        transform: translateY(18px);
+        transition: 0.65s;
+      }
+      .fade.visible {
+        opacity: 1;
+        transform: none;
+      }
+      .toast {
+        position: fixed;
+        bottom: 22px;
+        right: 22px;
+        background: #102440;
+        color: white;
+        padding: 13px 17px;
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+        font-size: 12px;
+        opacity: 0;
+        transform: translateY(12px);
+        transition: 0.25s;
+        z-index: 40;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: none;
+      }
+      .progress {
+        position: fixed;
+        top: 68px;
+        left: 0;
+        height: 3px;
+        background: var(--cyan);
+        width: 0;
+        z-index: 30;
+      }
+      @keyframes orbit {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      @keyframes float {
+        0%,
+        100% {
+          transform: perspective(1000px) rotateY(-5deg) translateY(0);
+        }
+        50% {
+          transform: perspective(1000px) rotateY(-5deg) translateY(-9px);
+        }
+      }
+      @keyframes grow {
+        from {
+          height: 0;
+        }
+        to {
+          height: var(--h);
+        }
+      }
+      @media (max-width: 900px) {
+        .nav {
+          display: none;
+        }
+        .hero-inner,
+        .grid2,
+        .feature-grid,
+        .scenario {
+          grid-template-columns: 1fr;
+        }
+        .hero {
+          padding-top: 55px;
+        }
+        .hero-visual {
+          transform: none;
+        }
+        .architecture {
+          grid-template-columns: 1fr;
+        }
+        .arch-node:not(:last-child):after {
+          content: "↓";
+          right: 50%;
+          top: auto;
+          bottom: -19px;
+        }
+        .journey {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .kpi-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (max-width: 560px) {
+        .section {
+          padding: 55px 5vw;
+        }
+        .hero {
+          padding: 55px 5vw;
+        }
+        .topbar {
+          padding: 0 5vw;
+        }
+        .top-actions .pill {
+          display: none;
+        }
+        .grid3,
+        .outcome-grid {
+          grid-template-columns: 1fr;
+        }
+        .journey {
+          grid-template-columns: 1fr;
+        }
+        .kpi-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .evidence {
+          grid-template-columns: 1fr 1fr;
+        }
+        .hero h1 {
+          letter-spacing: -1px;
+        }
+      }
+
+      /* Judge-demo polish: richer motion, depth and micro-interactions */
+      .hero {
+        background-size: 180% 180%;
+        animation: heroGradient 16s ease infinite;
+      }
+      .hero:before {
+        box-shadow:
+          0 0 90px #46c7d822,
+          inset 0 0 70px #3478f622;
+      }
+      .hero:after {
+        border-style: dashed;
+        opacity: 0.45;
+      }
+      .hero-visual {
+        animation:
+          float 5s ease-in-out infinite,
+          softGlow 4s ease-in-out infinite;
+      }
+      .card,
+      .kpi-card,
+      .journey-card,
+      .arch-node,
+      .outcome,
+      .investigation,
+      .copilot {
+        transition:
+          transform 0.28s ease,
+          box-shadow 0.28s ease,
+          border-color 0.28s ease;
+      }
+      .card:hover,
+      .kpi-card:hover,
+      .journey-card:hover,
+      .arch-node:hover {
+        transform: translateY(-7px);
+        box-shadow: 0 20px 42px rgba(22, 43, 77, 0.14);
+        border-color: #b8cef5;
+      }
+      .iconbox {
+        transition:
+          transform 0.35s ease,
+          background 0.35s ease;
+      }
+      .card:hover .iconbox {
+        transform: rotate(-8deg) scale(1.08);
+        background: #dce9ff;
+      }
+      .feature-wrap {
+        position: relative;
+        overflow: hidden;
+      }
+      .feature-wrap:before {
+        content: "";
+        position: absolute;
+        inset: -50%;
+        background: linear-gradient(
+          110deg,
+          transparent 42%,
+          #ffffff0b 50%,
+          transparent 58%
+        );
+        transform: translateX(-60%);
+        animation: shine 8s ease-in-out infinite;
+        pointer-events: none;
+      }
+      .feature-item {
+        position: relative;
+        overflow: hidden;
+      }
+      .feature-item:after {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: var(--cyan);
+        transform: scaleY(0);
+        transition: transform 0.25s;
+      }
+      .feature-item.active:after {
+        transform: scaleY(1);
+      }
+      .status {
+        animation: pulseStatus 2s ease-in-out infinite;
+      }
+      .live-dot {
+        animation: livePulse 1.7s ease-in-out infinite;
+      }
+      .btn-primary {
+        position: relative;
+        overflow: hidden;
+      }
+      .btn-primary:after {
+        content: "";
+        position: absolute;
+        top: -80%;
+        left: -40%;
+        width: 25%;
+        height: 260%;
+        background: #ffffff45;
+        transform: rotate(25deg);
+        transition: left 0.6s;
+      }
+      .btn-primary:hover:after {
+        left: 130%;
+      }
+      .result-panel {
+        position: relative;
+        overflow: hidden;
+      }
+      .result-panel:after {
+        content: "";
+        position: absolute;
+        width: 190px;
+        height: 190px;
+        border: 1px solid #ffffff16;
+        border-radius: 50%;
+        right: -90px;
+        top: -90px;
+        box-shadow:
+          0 0 0 24px #ffffff08,
+          0 0 0 48px #ffffff05;
+        pointer-events: none;
+      }
+      .bubble {
+        animation: bubbleIn 0.28s ease both;
+      }
+      .section-head h2 {
+        background: linear-gradient(100deg, var(--navy), #315d9b 65%, #168b9d);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+      }
+      @keyframes heroGradient {
+        0%,
+        100% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+      }
+      @keyframes softGlow {
+        0%,
+        100% {
+          box-shadow: 0 30px 80px #0005;
+        }
+        50% {
+          box-shadow: 0 30px 90px #46c7d822;
+        }
+      }
+      @keyframes shine {
+        0%,
+        55% {
+          transform: translateX(-70%);
+        }
+        85%,
+        100% {
+          transform: translateX(70%);
+        }
+      }
+      @keyframes pulseStatus {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 #d6535c22;
+        }
+        50% {
+          box-shadow: 0 0 0 6px #d6535c10;
+        }
+      }
+      @keyframes livePulse {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 #5ce0b455;
+        }
+        50% {
+          box-shadow: 0 0 0 7px #5ce0b400;
+        }
+      }
+      @keyframes bubbleIn {
+        from {
+          opacity: 0;
+          transform: translateY(8px) scale(0.98);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *:before,
+        *:after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          scroll-behavior: auto !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="progress" id="progress"></div>
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">S</span> SUPPLYCHAIN
+        <span style="font-weight: 400; color: #91a9c8">| INTELLIGENCE</span>
+      </div>
+      <nav class="nav">
+        <a href="#context">Context</a><a href="#challenge">Challenge</a
+        ><a href="#solution">Solution</a><a href="#feature">Feature</a
+        ><a href="#scenario">What-if</a><a href="#copilot">Copilot</a
+        ><a href="#outcomes">Outcomes</a>
+      </nav>
+      <div class="top-actions">
+        <button
+          class="btn btn-primary"
+          onclick="document.querySelector('#feature').scrollIntoView()"
+        >
+          Explore demo ↗
+        </button>
+      </div>
+    </header>
+    <section class="hero" id="home">
+      <div class="hero-inner">
+        <div>
+          <div class="eyebrow">
+            Supply chain operations · Decision intelligence
+          </div>
+          <h1>From logistics disruption to <span>confident action.</span></h1>
+          <p>
+            Help operations teams spot emerging exceptions, understand the
+            evidence behind risk, and coordinate the next best action—with
+            people firmly in control.
+          </p>
+          <div class="hero-actions">
+            <button
+              class="btn btn-primary"
+              onclick="
+                document
+                  .querySelector('#context')
+                  .scrollIntoView({ behavior: 'smooth' })
+              "
+            >
+              Start the customer story →</button
+            ><button
+              class="btn btn-ghost"
+              onclick="
+                document
+                  .querySelector('#scenario')
+                  .scrollIntoView({ behavior: 'smooth' })
+              "
+            >
+              Try the what-if scenario
+            </button>
+          </div>
+          <div class="hero-note">
+            Illustrative customer scenario · Synthetic demo data · Not a live
+            customer deployment
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="visual-head">
+            <strong>Operations pulse</strong
+            ><span><i class="live-dot"></i>Demo simulation</span>
+          </div>
+          <div class="visual-kpis">
+            <div class="vkpi">
+              <small>Assets monitored</small><strong>1,000</strong>
+            </div>
+            <div class="vkpi">
+              <small>High-risk signals</small
+              ><strong style="color: #ffb7a9">84</strong>
+            </div>
+            <div class="vkpi">
+              <small>Need review</small
+              ><strong style="color: #8ce2ce">12</strong>
+            </div>
+          </div>
+          <div class="spark" aria-label="Illustrative activity bars">
+            <i style="--h: 35%"></i><i style="--h: 52%"></i
+            ><i style="--h: 43%"></i><i style="--h: 68%"></i
+            ><i style="--h: 57%"></i><i style="--h: 82%"></i
+            ><i style="--h: 72%"></i><i style="--h: 95%"></i
+            ><i style="--h: 76%"></i><i style="--h: 88%"></i
+            ><i style="--h: 63%"></i><i style="--h: 80%"></i>
+          </div>
+          <div class="alert-row">
+            <span>⚠ Exception detected · Truck_07</span
+            ><strong>HIGH RISK</strong>
+          </div>
+          <div style="font-size: 10px; color: #9db2ce; margin-top: 12px">
+            Illustrative dashboard snapshot — values are synthetic.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="context">
+      <div class="container fade">
+        <div class="step-label"><b>01</b> Customer context</div>
+        <div class="grid2" style="align-items: center">
+          <div class="section-head">
+            <h2>When every delay creates a chain reaction.</h2>
+            <p class="lead">
+              Consider a fictional regional logistics operator managing a
+              distributed fleet and time-sensitive deliveries. Its operations
+              desk receives signals from vehicles, inventory systems, traffic
+              conditions and shipment updates—but those signals are spread
+              across different views.
+            </p>
+          </div>
+          <div class="card">
+            <span class="synthetic">FICTIONAL CUSTOMER CONTEXT</span>
+            <p class="quote" style="margin-top: 16px">
+              “We can see that something is going wrong. The hard part is
+              knowing <span>what matters first</span>, why it is happening, and
+              what action is safe to take.”
+            </p>
+            <p>
+              Illustrative customer voice created for this demo; not a real
+              customer quote.
+            </p>
+          </div>
+        </div>
+        <div class="grid3">
+          <div class="card">
+            <div class="iconbox">◷</div>
+            <h3>Time-sensitive operations</h3>
+            <p>
+              Teams need to prioritize exceptions quickly as operating
+              conditions change.
+            </p>
+          </div>
+          <div class="card">
+            <div class="iconbox">⌁</div>
+            <h3>Fragmented signals</h3>
+            <p>
+              Asset, traffic, inventory and delay indicators need to be
+              considered together.
+            </p>
+          </div>
+          <div class="card">
+            <div class="iconbox">◎</div>
+            <h3>Accountable decisions</h3>
+            <p>
+              Operators need traceable evidence and a human review step before
+              consequential action.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="challenge">
+      <div class="container fade">
+        <div class="step-label"><b>02</b> Business challenge</div>
+        <div class="section-head">
+          <h2>Move from alert overload to operational clarity.</h2>
+          <p class="lead">
+            The challenge is not simply detecting a delay. It is turning
+            available operational data into a consistent, explainable response
+            workflow.
+          </p>
+        </div>
+        <div class="grid2">
+          <div class="card problem-card">
+            <span class="tag">TODAY · CHALLENGE</span>
+            <h3>Reactive exception handling</h3>
+            <p>
+              Manual triage across separate reports, inconsistent
+              prioritization, repeated investigation and limited visibility into
+              why an alert was raised.
+            </p>
+          </div>
+          <div class="card solution-card">
+            <span class="tag">TARGET · OPPORTUNITY</span>
+            <h3>Evidence-led decision support</h3>
+            <p>
+              One operational view that highlights risk indicators, shows the
+              supporting records, suggests next steps and records human review.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="solution">
+      <div class="container fade">
+        <div class="step-label"><b>03</b> Solution</div>
+        <div class="section-head">
+          <h2>Supply Chain Operations Command Center.</h2>
+          <p class="lead">
+            A unified experience for monitoring, investigating and reviewing
+            logistics exceptions. Deterministic business rules calculate risk;
+            conversational AI helps users explore the evidence.
+          </p>
+        </div>
+        <div class="grid3">
+          <div class="card">
+            <div class="iconbox">▦</div>
+            <h3>Monitor</h3>
+            <p>
+              Bring key operational indicators and exceptions into a single
+              command view.
+            </p>
+          </div>
+          <div class="card">
+            <div class="iconbox">⌕</div>
+            <h3>Investigate</h3>
+            <p>
+              Trace risk signals to observed fields, thresholds and source
+              records.
+            </p>
+          </div>
+          <div class="card">
+            <div class="iconbox">✓</div>
+            <h3>Review</h3>
+            <p>
+              Present recommended checks and capture an operator's decision
+              before action.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="architecture">
+      <div class="container fade">
+        <div class="step-label"><b>04</b> Architecture / data flow</div>
+        <div class="section-head">
+          <h2>One governed data path. Multiple ways to interact.</h2>
+          <p class="lead">
+            The intended solution flow connects the operational dataset to a
+            backend decision service, then serves the command center and
+            conversational experiences.
+          </p>
+        </div>
+        <div class="architecture">
+          <div class="arch-node">
+            <div class="iconbox">▤</div>
+            <strong>Logistics dataset</strong
+            ><small>Kaggle CSV / approved source data</small>
+          </div>
+          <div class="arch-node">
+            <div class="iconbox">◫</div>
+            <strong>Microsoft Fabric</strong
+            ><small>Lakehouse · OneLake · Data Agent</small>
+          </div>
+          <!-- <div class="arch-node"><div class="iconbox">⌘</div><strong>Python / FastAPI</strong><small>Data retrieval · Rules · Evidence</small></div> -->
+          <div class="arch-node">
+            <div class="iconbox">▣</div>
+            <strong>Experience layer</strong
+            ><small>HTML command center · Copilot Studio</small>
+          </div>
+          <div class="arch-node">
+            <div class="iconbox">♙</div>
+            <strong>Operations team</strong
+            ><small>Investigate · Decide · Review</small>
+          </div>
+        </div>
+        <p class="lead" style="font-size: 12px; margin-top: 18px">
+          <strong>Implementation note:</strong> This diagram shows the target
+          architecture. Fabric Data Agent and Copilot Studio connectivity must
+          be configured and verified in the deployment environment; this
+          standalone storytelling page does not claim those live connections are
+          active.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" id="feature">
+      <div class="container fade">
+        <div class="step-label"><b>05</b> Feature showcase · centerpiece</div>
+        <div class="feature-wrap">
+          <span class="synthetic">SYNTHETIC INVESTIGATION EXAMPLE</span>
+          <h2 style="margin-top: 15px">
+            Investigate an exception. See the evidence. Keep control.
+          </h2>
+          <p class="lead">
+            The operator selects an asset and receives a transparent explanation
+            of the risk signals and suggested checks.
+          </p>
+          <div class="feature-grid">
+            <div class="feature-list">
+              <div
+                class="feature-item active"
+                onclick="showInvestigation('delay', this)"
+              >
+                <strong>01 · Delay risk investigation</strong
+                ><small
+                  >Understand which observed signals contributed to a high-risk
+                  assessment.</small
+                >
+              </div>
+              <div
+                class="feature-item"
+                onclick="showInvestigation('inventory', this)"
+              >
+                <strong>02 · Inventory watch</strong
+                ><small
+                  >Review low inventory indicators and the limits of the
+                  available dataset.</small
+                >
+              </div>
+              <div
+                class="feature-item"
+                onclick="showInvestigation('traffic', this)"
+              >
+                <strong>03 · Traffic disruption</strong
+                ><small
+                  >Connect traffic status and waiting time to an operational
+                  review.</small
+                >
+              </div>
+              <div
+                class="feature-item"
+                onclick="showInvestigation('approval', this)"
+              >
+                <strong>04 · Human review</strong
+                ><small
+                  >Record a decision without automatically changing routes or
+                  shipments.</small
+                >
+              </div>
+            </div>
+            <div class="investigation" id="investigation">
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  gap: 12px;
+                  align-items: center;
+                "
+              >
+                <div>
+                  <span class="tag">ASSET INVESTIGATION</span>
+                  <h3 style="margin-top: 9px">Truck_07</h3>
+                </div>
+                <span class="status">HIGH · ILLUSTRATIVE</span>
+              </div>
+              <div class="asset-meta">
+                <span class="tag">Scenario ID: DEMO-007</span
+                ><span class="tag">Review required</span>
+              </div>
+              <p style="font-size: 12px; color: #65768c; line-height: 1.6">
+                Multiple operational signals warrant investigation. The values
+                below are synthetic examples and must be replaced by actual
+                backend records in a live integration.
+              </p>
+              <div class="evidence">
+                <div><small>Waiting time</small><strong>38 min</strong></div>
+                <div><small>Traffic status</small><strong>Heavy</strong></div>
+                <div><small>Delay flag</small><strong>Yes</strong></div>
+              </div>
+              <div class="recommend">
+                <strong>Suggested next checks</strong><br />Verify current
+                shipment status, confirm route conditions with the operations
+                desk, and check whether inventory or delivery commitments are
+                affected. No route change is executed.
+              </div>
+              <div
+                style="
+                  display: flex;
+                  gap: 9px;
+                  flex-wrap: wrap;
+                  margin-top: 15px;
+                "
+              >
+                <button
+                  class="btn btn-primary"
+                  onclick="reviewAction('Escalated for operations review')"
+                >
+                  Escalate for review</button
+                ><button
+                  class="btn btn-ghost"
+                  onclick="reviewAction('Marked as reviewed')"
+                >
+                  Mark reviewed
+                </button>
+              </div>
+              <div
+                id="reviewState"
+                style="font-size: 11px; color: #55708e; margin-top: 10px"
+              >
+                Review status: Awaiting operator decision.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="implementation">
+      <div class="container fade">
+        <div class="step-label"><b>06</b> Implementation journey</div>
+        <div class="section-head">
+          <h2>Built in practical, testable stages.</h2>
+          <p class="lead">
+            A phased delivery approach keeps the operational experience useful
+            even while enterprise integrations are being completed.
+          </p>
+        </div>
+        <div class="journey">
+          <div class="journey-card">
+            <h3>Data foundation</h3>
+            <p>
+              Inspect the dataset, validate field definitions and load the
+              approved source into Fabric or the backend data layer.
+            </p>
+          </div>
+          <div class="journey-card">
+            <h3>Decision service</h3>
+            <p>
+              Implement deterministic risk rules, evidence references, API
+              endpoints and transparent limitations.
+            </p>
+          </div>
+          <div class="journey-card">
+            <h3>User experience</h3>
+            <p>
+              Build the command center, investigation journey, what-if controls
+              and human review workflow.
+            </p>
+          </div>
+          <div class="journey-card">
+            <h3>AI & validation</h3>
+            <p>
+              Connect Fabric Data Agent and Copilot Studio, test grounded
+              answers, secure endpoints and rehearse the demo.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="scenario">
+      <div class="container fade">
+        <div class="step-label"><b>07</b> Interactive what-if scenario</div>
+        <div class="section-head">
+          <h2>What if operating conditions get worse?</h2>
+          <p class="lead">
+            Adjust the scenario inputs to see how a transparent illustrative
+            rule set changes the risk assessment. This is a scenario
+            simulator—not a trained predictive model.
+          </p>
+        </div>
+        <div class="scenario">
+          <div class="card">
+            <span class="synthetic">SIMULATED INPUTS · NOT LIVE TELEMETRY</span>
+            <div class="control">
+              <label for="wait"
+                >Waiting time
+                <strong><span id="waitVal">38</span> minutes</strong></label
+              ><input
+                id="wait"
+                type="range"
+                min="0"
+                max="90"
+                value="38"
+                oninput="updateScenario()"
+              />
+            </div>
+            <div class="control">
+              <label for="traffic">Traffic condition</label
+              ><select id="traffic" onchange="updateScenario()">
+                <option value="0">Low / normal</option>
+                <option value="1" selected>Heavy</option>
+                <option value="2">Severe disruption</option>
+              </select>
+            </div>
+            <div class="control">
+              <label for="inventory"
+                >Inventory level
+                <strong><span id="invVal">24</span>%</strong></label
+              ><input
+                id="inventory"
+                type="range"
+                min="0"
+                max="100"
+                value="24"
+                oninput="updateScenario()"
+              />
+            </div>
+            <div class="control">
+              <label for="demand"
+                >Demand forecast
+                <strong><span id="demandVal">78</span>%</strong></label
+              ><input
+                id="demand"
+                type="range"
+                min="0"
+                max="100"
+                value="78"
+                oninput="updateScenario()"
+              />
+            </div>
+            <button class="btn btn-ghost" onclick="resetScenario()">
+              ↺ Reset scenario
+            </button>
+          </div>
+          <div class="result-panel">
+            <small>ILLUSTRATIVE RULE-BASED ASSESSMENT</small>
+            <div class="metric" id="riskScore">78 / 100</div>
+            <div id="riskLabel" style="font-weight: 800; color: #ffbd9e">
+              HIGH RISK · REVIEW
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill" id="riskBar" style="width: 78%"></div>
+            </div>
+            <div class="result-grid">
+              <div>
+                <small>Triggered indicators</small
+                ><strong id="triggers">3</strong>
+              </div>
+              <div>
+                <small>Suggested priority</small
+                ><strong id="priority">P1</strong>
+              </div>
+              <div>
+                <small>Inventory watch</small
+                ><strong id="invWatch">Active</strong>
+              </div>
+              <div><small>Human approval</small><strong>Required</strong></div>
+            </div>
+            <p
+              id="scenarioText"
+              style="
+                font-size: 12px;
+                color: #c5d3e5;
+                line-height: 1.65;
+                margin-top: 18px;
+              "
+            >
+              Waiting time, heavy traffic and low inventory indicators combine
+              to warrant prompt operator investigation. Confirm the real-world
+              context before acting.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="impact">
+      <div class="container fade">
+        <div class="step-label"><b>08</b> KPI / business impact</div>
+        <div class="section-head">
+          <h2>Measure the workflow—not just the alert count.</h2>
+          <p class="lead">
+            Use operational measures to evaluate whether the solution helps
+            teams identify, investigate and review exceptions more consistently.
+          </p>
+        </div>
+        <span class="synthetic"
+          >ALL VALUES BELOW ARE ILLUSTRATIVE TARGETS — NOT MEASURED
+          RESULTS</span
+        >
+        <div class="kpi-grid" style="margin-top: 18px">
+          <div class="kpi-card">
+            <small>Exception triage time</small><strong>−30%</strong
+            ><span class="delta">Illustrative improvement target</span>
+          </div>
+          <div class="kpi-card">
+            <small>Evidence coverage</small><strong>95%</strong
+            ><span class="delta"
+              >Illustrative target for explainable alerts</span
+            >
+          </div>
+          <div class="kpi-card">
+            <small>Review traceability</small><strong>100%</strong
+            ><span class="delta">Target for decisions recorded</span>
+          </div>
+          <div class="kpi-card">
+            <small>Priority visibility</small><strong>One view</strong
+            ><span class="delta">Unified operational workspace</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="copilot">
+      <div class="container fade">
+        <div class="step-label"><b>09</b> Ask Copilot experience</div>
+        <div class="section-head">
+          <h2>Let operators ask the next question naturally.</h2>
+          <p class="lead">
+            Choose a sample question to see a grounded-style response. These are
+            scripted demo responses based on the synthetic scenario—not answers
+            from a connected Copilot or Fabric Data Agent.
+          </p>
+        </div>
+        <div class="copilot">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              gap: 10px;
+            "
+          >
+            <strong style="color: var(--navy)">Supply Chain Assistant</strong
+            ><span class="tag">SCRIPTED DEMO RESPONSES</span>
+          </div>
+          <div class="chat-log" id="chatLog">
+            <div class="bubble bot">
+              Hello. I can help explain logistics exceptions, summarize observed
+              indicators and suggest checks. Select a question below to explore
+              the demo.
+            </div>
+          </div>
+          <div class="question-list">
+            <button class="question" onclick="askQuestion(0)">
+              Why is Truck_07 high risk?
+            </button>
+            <button class="question" onclick="askQuestion(1)">
+              Which signals should I verify first?
+            </button>
+            <button class="question" onclick="askQuestion(2)">
+              Can you confirm customer impact?
+            </button>
+            <button class="question" onclick="askQuestion(3)">
+              What action needs human approval?
+            </button>
+          </div>
+          <div style="display: flex; gap: 9px; margin-top: 15px">
+            <input
+              id="customQuestion"
+              placeholder="Type a demo question…"
+              style="
+                flex: 1;
+                min-width: 0;
+                border: 1px solid #d5e1f2;
+                border-radius: 9px;
+                padding: 11px;
+              "
+              onkeydown="if (event.key === 'Enter') askCustom();"
+            /><button class="btn btn-primary" onclick="askCustom()">Ask</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section outcomes" id="outcomes">
+      <div class="container fade">
+        <div class="step-label" style="color: #75d8e4">
+          <b style="background: #ffffff18; color: #fff">10</b> Business outcomes
+        </div>
+        <div class="section-head">
+          <h2 style="color: #e2e8f0">
+            A more confident way to run exception management.
+          </h2>
+          <p class="lead">
+            The intended value is a clearer operational picture, faster evidence
+            gathering and more accountable decisions—not autonomous changes to
+            the supply chain.
+          </p>
+        </div>
+        <div class="outcome-grid">
+          <div class="outcome">
+            <strong>01</strong>
+            <h3>Earlier visibility</h3>
+            <p>
+              Bring relevant risk indicators together so teams can see where
+              attention may be needed.
+            </p>
+          </div>
+          <div class="outcome">
+            <strong>02</strong>
+            <h3>Explainable investigation</h3>
+            <p>
+              Show the observed values, configured rules and missing context
+              behind each assessment.
+            </p>
+          </div>
+          <div class="outcome">
+            <strong>03</strong>
+            <h3>Human-led response</h3>
+            <p>
+              Give operators recommended checks and a traceable review step
+              before consequential actions.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">Supply Chain Operations Command Center</footer>
+    <div class="toast" id="toast"></div>
+    <script>
+      const investigationData = {
+        delay: {
+          title: "Truck_07 · Delay risk investigation",
+          status: "HIGH · ILLUSTRATIVE",
+          desc: "Multiple operational signals warrant investigation. These synthetic values demonstrate how the evidence panel can explain a risk assessment.",
+          metrics: [
+            ["Waiting time", "38 min"],
+            ["Traffic status", "Heavy"],
+            ["Delay flag", "Yes"],
+          ],
+          recommend:
+            "Verify current shipment status, confirm route conditions with the operations desk, and check whether inventory or delivery commitments are affected. No route change is executed.",
+        },
+        inventory: {
+          title: "Inventory watch · Truck_07",
+          status: "WATCH · ILLUSTRATIVE",
+          desc: "The sample scenario shows a low inventory indicator alongside elevated demand. The available dataset does not identify a specific SKU, order or customer.",
+          metrics: [
+            ["Inventory level", "24%"],
+            ["Demand forecast", "78%"],
+            ["SKU mapping", "Unavailable"],
+          ],
+          recommend:
+            "Confirm the inventory unit and replenishment context in the source system. Do not infer a stockout or customer impact from this dataset alone.",
+        },
+        traffic: {
+          title: "Traffic disruption · Truck_07",
+          status: "HIGH · ILLUSTRATIVE",
+          desc: "Heavy traffic and a longer waiting-time signal can justify an operational check. They do not, by themselves, prove the root cause of a delivery delay.",
+          metrics: [
+            ["Waiting time", "38 min"],
+            ["Traffic status", "Heavy"],
+            ["Root cause", "Needs validation"],
+          ],
+          recommend:
+            "Check the latest route and traffic feed, compare the timestamp with the asset event, and confirm the operational status with the dispatcher.",
+        },
+        approval: {
+          title: "Human review · Truck_07",
+          status: "PENDING · ILLUSTRATIVE",
+          desc: "The system can prepare an evidence-backed recommendation, but consequential actions remain with an authorized operations user.",
+          metrics: [
+            ["Recommendation", "Review route"],
+            ["Decision owner", "Operator"],
+            ["Execution", "Not enabled"],
+          ],
+          recommend:
+            "Record whether the recommendation is accepted, rejected or escalated. A review record is not proof that a route or shipment was changed.",
+        },
+      };
+      function showInvestigation(key, el) {
+        document
+          .querySelectorAll(".feature-item")
+          .forEach((x) => x.classList.remove("active"));
+        el.classList.add("active");
+        const d = investigationData[key];
+        document.getElementById("investigation").innerHTML =
+          `<div style="display:flex;justify-content:space-between;gap:12px;align-items:center"><div><span class="tag">OPERATIONAL INVESTIGATION</span><h3 style="margin-top:9px">${d.title}</h3></div><span class="status">${d.status}</span></div><p style="font-size:12px;color:#65768c;line-height:1.6">${d.desc}</p><div class="evidence">${d.metrics.map((m) => `<div><small>${m[0]}</small><strong>${m[1]}</strong></div>`).join("")}</div><div class="recommend"><strong>Suggested next checks</strong><br>${d.recommend}</div><div style="display:flex;gap:9px;flex-wrap:wrap;margin-top:15px"><button class="btn btn-primary" onclick="reviewAction('Escalated for operations review')">Escalate for review</button><button class="btn btn-ghost" onclick="reviewAction('Marked as reviewed')">Mark reviewed</button></div><div id="reviewState" style="font-size:11px;color:#55708e;margin-top:10px">Review status: Awaiting operator decision.</div>`;
+      }
+      function reviewAction(msg) {
+        document.getElementById("reviewState").textContent =
+          "Review status: " +
+          msg +
+          ". Demo interaction only; no external system was updated.";
+        toast(msg + " — demo only");
+      }
+      function updateScenario() {
+        const w = +document.getElementById("wait").value,
+          t = +document.getElementById("traffic").value,
+          i = +document.getElementById("inventory").value,
+          d = +document.getElementById("demand").value;
+        document.getElementById("waitVal").textContent = w;
+        document.getElementById("invVal").textContent = i;
+        document.getElementById("demandVal").textContent = d;
+        let score = Math.min(
+          100,
+          Math.round(
+            w * 0.55 +
+              t * 14 +
+              (i < 30 ? 20 : i < 50 ? 10 : 0) +
+              (d > 75 ? 12 : d > 55 ? 6 : 0),
+          ),
+        );
+        let triggers =
+          (w >= 30 ? 1 : 0) +
+          (t >= 1 ? 1 : 0) +
+          (i < 30 ? 1 : 0) +
+          (d > 75 ? 1 : 0);
+        let level = score >= 65 ? "HIGH" : score >= 35 ? "MEDIUM" : "LOW";
+        document.getElementById("riskScore").textContent = score + " / 100";
+        document.getElementById("riskLabel").textContent =
+          level + " RISK · " + (level === "LOW" ? "MONITOR" : "REVIEW");
+        document.getElementById("riskBar").style.width = score + "%";
+        document.getElementById("triggers").textContent = triggers;
+        document.getElementById("priority").textContent =
+          level === "HIGH" ? "P1" : level === "MEDIUM" ? "P2" : "P3";
+        document.getElementById("invWatch").textContent =
+          i < 30 ? "Active" : i < 50 ? "Watch" : "Normal";
+        document.getElementById("scenarioText").textContent =
+          `${triggers} illustrative indicators are currently triggered. ${level === "HIGH" ? "Prompt operator investigation is suggested." : level === "MEDIUM" ? "Review the context and monitor for further deterioration." : "Continue routine monitoring."} This score is a demo rule calculation, not a validated prediction.`;
+      }
+      function resetScenario() {
+        document.getElementById("wait").value = 38;
+        document.getElementById("traffic").value = 1;
+        document.getElementById("inventory").value = 24;
+        document.getElementById("demand").value = 78;
+        updateScenario();
+        toast("Scenario reset");
+      }
+      const answers = [
+        "Truck_07 is rated high in this illustrative scenario because the waiting-time value is 38 minutes, traffic is marked heavy, and a delay flag is present. These are observed example fields, not proof of a single root cause. Verify the latest event timestamp and shipment status.",
+        "Start by validating the event timestamp and asset identity, then check waiting time against the configured threshold, traffic status and delay indicator. Confirm the values in the source system before escalating.",
+        "The sample dataset does not establish a customer, order or promised-delivery relationship. I cannot confirm customer impact from these fields alone. Connect validated order and delivery data before making a customer-impact claim.",
+        "Any route change, shipment reassignment, customer notification or other consequential action should require an authorized human decision. This demo only records a review choice; it does not execute an operational change.",
+      ];
+      function addBubble(text, type) {
+        const log = document.getElementById("chatLog");
+        const b = document.createElement("div");
+        b.className = "bubble " + type;
+        b.textContent = text;
+        log.appendChild(b);
+        log.scrollTop = log.scrollHeight;
+      }
+      function askQuestion(n) {
+        const qs = [
+          "Why is Truck_07 high risk?",
+          "Which signals should I verify first?",
+          "Can you confirm customer impact?",
+          "What action needs human approval?",
+        ];
+        addBubble(qs[n], "user");
+        setTimeout(() => addBubble(answers[n], "bot"), 220);
+      }
+      function askCustom() {
+        const v = document.getElementById("customQuestion").value.trim();
+        if (!v) return;
+        addBubble(v, "user");
+        document.getElementById("customQuestion").value = "";
+        let response =
+          "This standalone page contains scripted demo responses only. For a grounded answer, connect the Copilot Studio agent or Fabric Data Agent to the approved data source. In this example, I would first verify the relevant asset record, timestamp, configured rule and any missing order/customer mapping.";
+        if (/customer|order|impact/i.test(v)) response = answers[2];
+        else if (/risk|truck|delay|why/i.test(v)) response = answers[0];
+        else if (/action|approve|route|change/i.test(v)) response = answers[3];
+        setTimeout(() => addBubble(response, "bot"), 220);
+      }
+      function toast(msg) {
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        t.classList.add("show");
+        setTimeout(() => t.classList.remove("show"), 2600);
+      }
+      function copyNarration() {
+        const text = document
+          .querySelector(".script")
+          .innerText.replace("PRESENTER TALK TRACK · APPROX. 75 SECONDS", "")
+          .replace("Copy narration", "")
+          .trim();
+        if (navigator.clipboard) {
+          navigator.clipboard
+            .writeText(text)
+            .then(() => toast("Narration copied"))
+            .catch(() => toast("Select and copy the narration manually"));
+        } else toast("Clipboard not available in this browser context");
+      }
+      window.addEventListener("scroll", () => {
+        let h = document.documentElement;
+        document.getElementById("progress").style.width =
+          (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100 + "%";
+      });
+      const observer = new IntersectionObserver(
+        (entries) =>
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("visible");
+              observer.unobserve(e.target);
+            }
+          }),
+        { threshold: 0.12 },
+      );
+      document.querySelectorAll(".fade").forEach((el) => observer.observe(el));
+      updateScenario();
+    </script>
+  </body>
+</html>
